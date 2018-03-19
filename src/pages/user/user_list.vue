@@ -3,15 +3,11 @@
   <imp-panel>
     <h3 class="box-title" slot="header" style="width: 100%;">
       <el-row style="width: 100%;">
-        <el-col :span="12">
-          <router-link :to="{ path: 'userAdd'}">
-            <el-button type="primary" icon="plus">新增</el-button>
-          </router-link>
-        </el-col>
-        <el-col :span="12">
+        
+        <el-col :span="24">
           <div class="el-input" style="width: 200px; float: right;">
             <i class="el-input__icon el-icon-search"></i>
-            <input type="text" placeholder="输入用户名称" v-model="searchKey" @keyup.enter="search($event)"
+            <input type="text" placeholder="输入编号" v-model="searchKey" @keyup.enter="search($event)"
                    class="el-input__inner">
           </div>
         </el-col>
@@ -23,52 +19,54 @@
         border
         style="width: 100%"
         v-loading="listLoading"
-        @selection-change="handleSelectionChange">
+        >
+        
         <el-table-column
           prop="id"
-          type="selection"
-          width="45">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="名称">
+          label="用户编号">
         </el-table-column>
         
         <el-table-column
-          prop="loginName"
-          label="登录用户名">
+          prop="name"
+          label="用户昵称">
         </el-table-column>
         <el-table-column
-          prop="photo"
-          label="照片">
+          prop="person_type"
+          label="用户类型">
         </el-table-column>
         <el-table-column
-          prop="email"
-          label="邮箱">
-        </el-table-column>
-        <el-table-column
-          prop="status"
-          label="状态">
-        </el-table-column>
-        <el-table-column label="操作" width="285">
+          prop="face_enabled"
+          label="人脸绑定">
           <template scope="scope">
+            {{scope.row.face_enabled?'绑定' :"未绑定"}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="passless_enabled"
+          label="免密支付">
+          <template scope="scope">
+            {{scope.row.passless_enabled?'开通' :"未开通"}}
+          </template>
+        </el-table-column>
+        <!--el-table-column
+          prop="ordernum"
+          label="交易次数">
+        </el-table-column>
+        <el-table-column
+          prop="totalprice"
+          label="交易金额">
+        </el-table-column-->
+        <el-table-column label="操作" width="100">
+          <template scope="scope">
+          
             <el-button
               size="small"
               type="default"
-              icon="edit"
-              @click="handleEdit(scope.$index, scope.row)">编辑
+              icon="view"
+              @click="handleEdit(scope.$index, scope.row)"
+              >编辑
             </el-button>
-            <el-button
-              size="small"
-              type="info"
-              icon="setting"
-              @click="handleRoleConfig(scope.$index, scope.row)">配置角色
-            </el-button>
-            <el-button
-              size="small"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除
-            </el-button>
+         
           </template>
         </el-table-column>
       </el-table>
@@ -182,7 +180,7 @@
         this.loadData();
       },
       handleEdit(index, row){
-        this.$router.push({path: 'userAdd', query: {id: row.id}})
+        this.$router.push({path: 'info', query: {id: row.id}})
       },
       handleDelete(index, row){
         this.$http.get(api.SYS_USER_DELETE + "?userIds=" + row.id).then(res => {
@@ -190,18 +188,21 @@
         });
       },
       loadData(){
+
+      /*
         var d = {"offset":0,"limit":2147483647,"total":1,"size":10,"pages":1,"current":1,"searchCount":true,"optimizeCount":false,"orderByField":null,"records":[
-            {"id":1,"delFlag":0,"companyId":1,"officeId":2,"loginName":"admin","password":"",
-              "no":"0001","name":"系统管理员","email":"lanux@foxmail.com","phone":"731","mobile":"13769999998",
-              "userType":"1","photo":null,"loginIp":"127.0.0.1","loginDate":1453188598000,"loginFlag":"1",
-              "remarks":"最高管理员","status":1,"token":null}],"condition":{},"asc":true,"offsetCurrent":0};
+            {"uid":1,"nick":"小天屎蜜柚","type":"普通用户","status":"正常","facestatus":"已绑定","isdirectpay":"已设置",
+              "ordernum":"23","totalprice":"1234"},
+              {"uid":23,"nick":"清新口臭","type":"补货员","status":"正常","facestatus":"已绑定","isdirectpay":"已设置",
+              "ordernum":"0","totalprice":"0"}],"condition":{},"asc":true,"offsetCurrent":0};
         this.tableData.rows = d.records;
+        */
 //      this.tableData.pagination.total = d.total;
-        //        this.$http.get(api.SYS_USER_PAGE + "?key=" + this.searchKey + "&pageSize=" + this.tableData.pagination.pageSize + "&pageNo=" + this.tableData.pagination.pageNo)
-//          .then(res => {
-//            this.tableData.rows = refs.data.records;
-//            this.tableData.pagination.total = res.data.total;
-//          });
+        this.$http.get(api.SYS_USER_LIST + "?key=" + this.searchKey + "&pageSize=" + this.tableData.pagination.pageSize + "&pageNo=" + this.tableData.pagination.pageNo)
+          .then(res => {
+            this.tableData.rows = res.data;
+           // this.tableData.pagination.total = res.data.total;
+          });
       }
     },
     created(){

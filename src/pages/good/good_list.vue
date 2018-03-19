@@ -4,14 +4,14 @@
     <h3 class="box-title" slot="header" style="width: 100%;">
       <el-row style="width: 100%;">
         <el-col :span="12">
-          <router-link :to="{ path: 'userAdd'}">
+          <router-link :to="{ path: 'Add'}">
             <el-button type="primary" icon="plus">新增</el-button>
           </router-link>
         </el-col>
         <el-col :span="12">
           <div class="el-input" style="width: 200px; float: right;">
             <i class="el-input__icon el-icon-search"></i>
-            <input type="text" placeholder="输入用户名称" v-model="searchKey" @keyup.enter="search($event)"
+            <input type="text" placeholder="输入编号" v-model="searchKey" @keyup.enter="search($event)"
                    class="el-input__inner">
           </div>
         </el-col>
@@ -23,46 +23,45 @@
         border
         style="width: 100%"
         v-loading="listLoading"
-        @selection-change="handleSelectionChange">
+        >
+        
         <el-table-column
           prop="id"
-          type="selection"
-          width="45">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="名称">
+          label="商品编号">
         </el-table-column>
         
         <el-table-column
-          prop="loginName"
-          label="登录用户名">
+          prop="name"
+          label="商品名称">
         </el-table-column>
         <el-table-column
-          prop="photo"
-          label="照片">
+          prop="rfid"
+          label="RFID">
         </el-table-column>
         <el-table-column
-          prop="email"
-          label="邮箱">
+          prop="isPiccsan"
+          label="图像识别">
+
         </el-table-column>
         <el-table-column
-          prop="status"
-          label="状态">
+          prop="pic_addr"
+          label="图片">
+          <template scope="scope">
+            <img  :src="scope.row.pic_addr" alt="" style="width: 50px;height: 50px">
+          </template>
         </el-table-column>
-        <el-table-column label="操作" width="285">
+        <el-table-column
+          prop="price"
+          label="价格">
+        </el-table-column>
+       
+        <el-table-column label="操作" width="200">
           <template scope="scope">
             <el-button
               size="small"
               type="default"
               icon="edit"
               @click="handleEdit(scope.$index, scope.row)">编辑
-            </el-button>
-            <el-button
-              size="small"
-              type="info"
-              icon="setting"
-              @click="handleRoleConfig(scope.$index, scope.row)">配置角色
             </el-button>
             <el-button
               size="small"
@@ -182,26 +181,39 @@
         this.loadData();
       },
       handleEdit(index, row){
-        this.$router.push({path: 'userAdd', query: {id: row.id}})
+
+        this.$router.push({path: 'Add', query: {id: row.id}})
       },
       handleDelete(index, row){
-        this.$http.get(api.SYS_USER_DELETE + "?userIds=" + row.id).then(res => {
-          this.loadData();
-        });
+        this.$confirm('确定删除这一条记录？', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'success'
+            }).then(() => {
+              this.$http.delete(api.SYS_GOOD_LIST + row.id + "/").then(res => {
+                  this.loadData();
+                });
+            })
+        
       },
       loadData(){
+      /*
         var d = {"offset":0,"limit":2147483647,"total":1,"size":10,"pages":1,"current":1,"searchCount":true,"optimizeCount":false,"orderByField":null,"records":[
-            {"id":1,"delFlag":0,"companyId":1,"officeId":2,"loginName":"admin","password":"",
-              "no":"0001","name":"系统管理员","email":"lanux@foxmail.com","phone":"731","mobile":"13769999998",
-              "userType":"1","photo":null,"loginIp":"127.0.0.1","loginDate":1453188598000,"loginFlag":"1",
-              "remarks":"最高管理员","status":1,"token":null}],"condition":{},"asc":true,"offsetCurrent":0};
+            {"gid":1,"name":"王老吉","rfid":"xs3214","isPiccsan":"支持","image":"http://bobbytest-1251829167.cosbj.myqcloud.com/good%5C15167877901516342408348.jpg","price":"450"},
+            {"gid":2,"name":"加多宝","rfid":"fs3d4","isPiccsan":"支持","image":"http://bobbytest-1251829167.cosbj.myqcloud.com/good%5C1516787673133.jpg","price":"450"},
+            {"gid":3,"name":"大白兔（500克）","rfid":"gitd12","isPiccsan":"支持","image":"http://bobbytest-1251829167.cosbj.myqcloud.com/good%5C1516787869133.jpg","price":"980"},
+          ],"condition":{},"asc":true,"offsetCurrent":0};
         this.tableData.rows = d.records;
+        */
 //      this.tableData.pagination.total = d.total;
-        //        this.$http.get(api.SYS_USER_PAGE + "?key=" + this.searchKey + "&pageSize=" + this.tableData.pagination.pageSize + "&pageNo=" + this.tableData.pagination.pageNo)
-//          .then(res => {
-//            this.tableData.rows = refs.data.records;
-//            this.tableData.pagination.total = res.data.total;
-//          });
+
+
+        this.$http.get(api.SYS_GOOD_LIST + "?key=" + this.searchKey + "&pageSize=" + this.tableData.pagination.pageSize + "&pageNo=" + this.tableData.pagination.pageNo)
+          .then(res => {
+            console.log(res.data);
+            this.tableData.rows = res.data;
+           //this.tableData.pagination.total = res.data.total;
+        });
       }
     },
     created(){

@@ -133,8 +133,8 @@
     -moz-transition: -moz-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
     -o-transition: -o-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
     transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
-    margin-left: 230px;
-    padding-top: 50px;
+    margin-left: 170px;
+    padding-top: 40px;
   }
 
   .content-scrollbar{

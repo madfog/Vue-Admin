@@ -1,51 +1,23 @@
 <template>
-  <imp-panel :title="form.id ? '编辑':'新增用户'">
+  <imp-panel title="绑定用户">
     <el-form ref="form" :model="form" label-width="180px">
-      <el-form-item label="用户名">
-        <el-input v-model="form.name"></el-input>
+      <el-form-item label="名称">
+        <el-input v-model="form.user_name"></el-input>
       </el-form-item>
-      
-      <el-form-item label="头像">
+      <el-form-item label="人脸">
         <el-upload
-  class="avatar-uploader"
-  action="http://wxapp.cloudarch.info/face/addone?aa=1"
-  :show-file-list="false"
-  :on-success="handleAvatarSuccess"
-  :before-upload="beforeAvatarUpload">
-  <img v-if="form.image" :src="form.image" class="avatar">
-  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-</el-upload>
-      </el-form-item>
-      <el-form-item label="手机">
-        <el-input v-model="form.mobile"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱">
-        <el-input v-model="form.email"></el-input>
-      </el-form-item>
-      <el-form-item label="工号">
-        <el-input v-model="form.no"></el-input>
-      </el-form-item>
-      <el-form-item label="固定电话">
-        <el-input v-model="form.phone"></el-input>
-      </el-form-item>
-      <el-form-item label="状态">
-        <el-radio-group v-model="form.status">
-          <el-radio :label="0">未激活</el-radio>
-          <el-radio :label="1">已激活</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="用户类型">
-        <el-radio-group v-model="form.userType">
-          <el-radio label="0">注册用户</el-radio>
-          <el-radio label="1">后台配置用户</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="备注">
-        <el-input type="textarea" v-model="form.remarks"></el-input>
+          class="avatar-uploader"
+          action="http://upload.cloudarch.info/upload_pic.php"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="form.avatar" :src="form.avatar" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload> 
+
       </el-form-item>
       <el-form-item>
-        <el-button type="info" @click="onEditSubmit" v-if="form.id">保存</el-button>
-        <el-button type="primary" @click="onSubmit" v-else>立即创建</el-button>
+        <el-button type="primary" @click="onSubmit" >立即绑定</el-button>
       </el-form-item>
     </el-form>
   </imp-panel>
@@ -67,7 +39,7 @@
     color: #8c939d;
     width: 178px;
     height: 178px;
-    line-height: 178px;
+    line-height: 6!important;
     text-align: center;
   }
   .avatar {
@@ -96,7 +68,8 @@
           mobile: '',
           status: 1,
           userType: '1',
-          remarks: ''
+          remarks: '',
+          avatar:"",
         }
       }
     },
@@ -105,7 +78,7 @@
     },
     methods: {
       onSubmit(){
-        this.$http.post(api.SYS_USER_ADD, this.form)
+        this.$http.post(api.SYS_BIND_USER, this.form)
           .then(res => {
             this.form = res.data;
             this.$confirm('添加成功, 是否返回列表?', '提示', {
@@ -113,7 +86,7 @@
               cancelButtonText: '取消',
               type: 'success'
             }).then(() => {
-              this.$router.push({path: 'userList'})
+              //alert("添加成功");
             })
           })
       },
@@ -138,6 +111,15 @@
               this.form = res.data;
             })
         }
+      },
+      handleAvatarSuccess(data,file) {
+        console.log(data);
+        let aa = this.form;
+        aa.avatar = data.url
+        this.$set(this.$data,"form",aa);
+        console.log(this.form);
+      },
+      beforeAvatarUpload(file) {
       }
     }
   }

@@ -79,6 +79,7 @@
 
   import * as api from "../../api"
 
+  //console.log(111);
   export default {
     mixins: [treeter],
     components: {
@@ -213,13 +214,18 @@
         }
       },
       load(){
-        this.$http.get(api.TEST_DATA)
+      /*
+      console.log("load");
+        this.$http.get(api.SYS_MENU_LIST)
           .then(res => {
+            console.log(res.data);
             this.menuTree = res.data.menuList;
+
           }).catch((error) => {
            console.log(error)
         })
       }
+      */
     },
     created(){
       this.load();

@@ -28,35 +28,35 @@ export default {
     return uuid.join('');
   },
   getUid:function(){
-    var uid = window.localStorage.getItem('imp-uuid');
+    var uid = window.sessionStorage.getItem('imp-uuid');
     if (!uid) {
       uid = this.randomString(32);
-      window.localStorage.setItem('imp-uuid',uid);
+      window.sessionStorage.setItem('imp-uuid',uid);
     }
     return uid;
   },
   getSid:function(){
-    var sid = window.localStorage.getItem('imp-sid');
+    var sid = window.sessionStorage.getItem('imp-sid');
     if(!!sid){
       return sid;
     }
     return '';
   },
   login (token, callback) {
-    window.localStorage.setItem('imp-sid',token);
+    window.sessionStorage.setItem('imp-sid',token);
     if (callback) callback();
   },
 
   getToken () {
-    return window.localStorage.getItem('imp-sid');
+    return window.sessionStorage.getItem('imp-sid');
   },
 
   logout (cb) {
-    window.localStorage.removeItem('imp-sid');
+    window.sessionStorage.removeItem('imp-sid');
     if (cb) cb()
   },
 
   loggedIn () {
-    return !!window.localStorage.getItem('imp-sid');
+    return !!window.sessionStorage.getItem('imp-sid');
   }
 }

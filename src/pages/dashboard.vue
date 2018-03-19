@@ -1,5 +1,28 @@
 <template>
+  
   <div class="dashboard" ref="dashboard">
+    
+    <H3>数据概览</H3>
+    <div class="infoblock1">
+
+    <el-row>
+      <el-col :span="6">
+        <div class="item">
+          货柜:11
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class="item">
+          用户:12
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class="item">
+          商品:12
+        </div>
+      </el-col>
+    </el-row>
+  </div>
     <el-row>
       <el-col :span="24">
         <div id="gotobedbar"></div>
@@ -31,18 +54,18 @@
 
   const option = {
     title: {
-      text: '每日数据统计',
-      subtext: '纯属虚构',
-      left:'center',
+      text: '近日成交',
+      //subtext: '纯属虚构',
+      left:'left',
     },
     tooltip: {
       trigger: 'axis',
-      axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+      axisPointer : {             // 坐标轴指示器，坐标轴触发有效
+        type : 'shadow'           // 默认为直线，可选为：'line' | 'shadow'
       }
     },
     legend: {
-      data: ['指标1', '指标2', '指标3', '指标4'],
+      data: ['指标1'],
       orient:'vertical',
       left:'right',
       top:'middle',//如果 top 的值为'top', 'middle', 'bottom'，组件会根据相应的位置自动对齐。
@@ -62,7 +85,7 @@
       feature: {
         mark: {show: true},
         dataView: {show: true, readOnly: false},
-        magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+        magicType: {show: true, type: ['bar','line']},
         restore: {show: true},
         saveAsImage: {show: true}
       }
@@ -100,45 +123,8 @@
           return list;
         }()
       },
-      {
-        name: '指标2',
-        type: 'line',
-        tiled : '总量',
-        areaStyle: {normal: {}},
-        data: function () {
-          var list = [];
-          for (var i = 1; i <= 30; i++) {
-            list.push(Math.round(Math.random() * 600));
-          }
-          return list;
-        }()
-      },
-      {
-        name: '指标3',
-        type: 'line',
-        tiled : '总量',
-        areaStyle: {normal: {}},
-        data: function () {
-          var list = [];
-          for (var i = 1; i <= 30; i++) {
-            list.push(Math.round(Math.random() * 200));
-          }
-          return list;
-        }()
-      },
-      {
-        name: '指标4',
-        type: 'line',
-        tiled : '总量',
-        areaStyle: {normal: {}},
-        data: function () {
-          var list = [];
-          for (var i = 1; i <= 30; i++) {
-            list.push(Math.round(Math.random() * 100));
-          }
-          return list;
-        }()
-      }
+      
+      
     ]
   };
 
@@ -197,5 +183,22 @@
     width: 100%;
     min-height: 500px;
     margin-right: 15px;
+  }
+  .item {
+    font-size:22px;
+    margin-bottom:20px;
+  }
+
+  .infoblock1 {
+    padding-bottom:20px;
+    padding-left:10px;
+    padding-top:20px;
+    margin-left:10px;
+    padding-right:10px;
+    margin-top:5px;
+    margin-bottom:10px;
+  }
+  .baseinfo {
+    margin:8px;
   }
 </style>

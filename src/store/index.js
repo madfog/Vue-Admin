@@ -62,9 +62,13 @@ const store = new Vuex.Store({
     //异步的函数
     toggleLoading: ({commit}) => commit(types.TOGGLE_LOADING),
     loadMenuList: ({commit}) => {
-      Vue.axios.get(api.TEST_DATA).then(res => {
-        commit(types.LOAD_MENU, res.data.menuList);
+      commit(types.LOAD_MENU, defaultMenu);
+     /*
+      Vue.axios.get(api.SYS_MENU_LIST3).then(res => {
+        //console.log(res.data.content.menu);
+        commit(types.LOAD_MENU, res.data.content.menu);
       }).catch(exp => commit(types.LOAD_MENU, defaultMenu));
+*/
     }
   },
 })

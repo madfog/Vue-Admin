@@ -45,6 +45,7 @@
     margin-bottom: 20px;
     width: 100%;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    min-height:500px;
   }
 
   .box .overlay.dark,

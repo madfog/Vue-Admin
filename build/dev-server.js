@@ -62,12 +62,15 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-var uri = 'http://localhost:' + port
+var uri = 'http://::' + port
+
 
 devMiddleware.waitUntilValid(function () {
   console.log('> Listening at ' + uri + '\n')
 })
 
+
+console.log('> Listening at ' + uri + '\n');
 module.exports = app.listen(port, function (err) {
   if (err) {
     console.log(err)
@@ -76,6 +79,6 @@ module.exports = app.listen(port, function (err) {
 
   // when env is testing, don't need open it
   if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
-    opn(uri)
+//    opn(uri)
   }
 })

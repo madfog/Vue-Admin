@@ -114,7 +114,7 @@
   .main-sidebar {
     background-color: #324157;
     position: fixed;
-    top: 50px;
+    top: 40px;
     left: 0;
     bottom: 0;
     height: calc(100vh - 50px);
@@ -127,7 +127,7 @@
   }
 
   .expandSide {
-    width: 230px;
+    width: 170px;
   }
 
   .el-menu-vertical-demo .el-submenu .el-menu-item {

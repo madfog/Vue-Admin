@@ -4,8 +4,8 @@
       <div class="login">
         <div class="login-form">
           <div class="card-block">
-            <h1>Vue-Admin-Login</h1>
-            <p class="text-muted">任意用户名/密码登录</p>
+            <h1>登陆</h1>
+            <p class="text-muted">用户名/密码登录</p>
             <div class="input-group m-b-1">
               <span class="input-group-addon"><i class="fa fa-user"></i></span>
               <input type="text" class="form-control" placeholder="Username" v-model="form.username">
@@ -30,8 +30,8 @@
         <div class="login-register">
           <div class="card-block">
             <h2>注册</h2>
-            <p>平台暂时只支持使用公司邮箱注册.</p>
-            <el-button type="info" class="btn btn-primary active m-t-1"> 马上注册</el-button>
+            <p>平台暂时内部使用，不支持对外注册.</p>
+            <el-button type="info" class="btn btn-primary active m-t-1"> 了解更多</el-button>
           </div>
         </div>
       </div>
@@ -44,6 +44,7 @@
   import * as api from "../api"
   import  auth from '../auth'
   import {mapGetters, mapActions, mapMutations} from 'vuex'
+  import qs from 'qs'
 
   export default {
     name: 'login',
@@ -64,17 +65,21 @@
         loadMenuList: 'loadMenuList' // 映射 this.load() 为 this.$store.dispatch('loadMenuList')
       }),
       login(){
-        var redirectUrl = '/index';
+        var redirectUrl = '/';
         if (this.$route.query && this.$route.query != null && this.$route.query.redirect && this.$route.query.redirect != null) {
           redirectUrl = this.$route.query.redirect;
         }
-        this.$http.get(api.TEST_DATA, this.form).then(res => {
-          res.data = res.data.loginInfo;
-          auth.login(res.data.sid);
+        console.log(this.form)
+        this.$http.post(api.LOGIN, this.form).then(res => {
+          //console.log(res);
+          //res.data = res.data.loginInfo;
+          const sig = res.data.token;
+          const user_info = {name: this.form.username};
+          auth.login(sig);
           window.sessionStorage.setItem("user-info", JSON.stringify(res.data.user));
-          this.setUserInfo(res.data.user);
-          this.$http.defaults.headers.common['authSid'] = res.data.sid;
-          this.loadMenuList();
+          this.setUserInfo(user_info);
+          this.$http.defaults.headers.common['Authorization'] = "Token " + sig;
+          //this.loadMenuList();
           this.$router.push({path: redirectUrl});
         })
       }

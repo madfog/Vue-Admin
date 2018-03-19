@@ -1,68 +1,122 @@
 <template>
 
   <imp-panel>
-    <h3 class="box-title" slot="header" style="width: 100%;">
-      <el-row style="width: 100%;">
-        <el-col :span="12">
-          <router-link :to="{ path: 'userAdd'}">
-            <el-button type="primary" icon="plus">新增</el-button>
-          </router-link>
-        </el-col>
-        <el-col :span="12">
-          <div class="el-input" style="width: 200px; float: right;">
-            <i class="el-input__icon el-icon-search"></i>
-            <input type="text" placeholder="输入用户名称" v-model="searchKey" @keyup.enter="search($event)"
-                   class="el-input__inner">
-          </div>
-        </el-col>
-      </el-row>
-    </h3>
+
+
+    <div  slot="header" style="width: 100%;">
+    
+    </div>
     <div slot="body">
+
+ <el-row style="width: 100%;">
+      <H3>基本信息</H3>
+    </el-row>
+    <div class="infoblock">
+   
+      <el-row style="width: 100%;margin-top:10px;">
+        <el-col :span="6">
+          <div class="baseinfo">用户编号：{{tableData.rows.id}}</div>
+        </el-col>
+        <el-col :span="6">
+          <div class="baseinfo">用户昵称：{{tableData.rows.name}}</div>  
+        </el-col>
+       <el-col :span="8">
+        <span class="baseinfo" style="padding:">用户类型</span>
+        <!--el-select v-model="value" placeholder="请选择 " style="width: 200px; float: right;">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option-->
+        </el-select-->
+       </el-col>
+      </el-row>
+      <!--el-row style="width: 100%;">
+        <div class="baseinfo" in-line=true>用户状态：正常  <el-button>拉黑</el-button></div-->
+        
+      </el-row>
+      <el-row style="width: 100%;">
+        <div class="baseinfo" in-line=true>人脸绑定：{{tableData.rows.face_enabled ? "已绑定":"未绑定"}}  </div> 
+      </el-row>
+      <el-row style="width: 100%;">
+        <div class="baseinfo" in-line=true>免密支付：{{tableData.rows.passless_enabled ? "已设置":"未设置"}}  </div> 
+      </el-row>
+      </div>
+
+
+
+
+
+
+    <!--H3>已交易货柜</H3>
       <el-table
-        :data="tableData.rows"
+        :data="tableData.countrows"
         border
-        style="width: 100%"
-        v-loading="listLoading"
-        @selection-change="handleSelectionChange">
+        style="width: 100%; margin-top:20px;"
+        v-loading="listLoading">
+        
         <el-table-column
-          prop="id"
-          type="selection"
-          width="45">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="名称">
+          prop="uid"
+          label="货柜编号">
         </el-table-column>
         
         <el-table-column
-          prop="loginName"
-          label="登录用户名">
+          prop="nick"
+          label="位置">
         </el-table-column>
         <el-table-column
-          prop="photo"
-          label="照片">
-        </el-table-column>
-        <el-table-column
-          prop="email"
-          label="邮箱">
+          prop="type"
+          label="交易次数">
         </el-table-column>
         <el-table-column
           prop="status"
-          label="状态">
+          label="交易金额">
         </el-table-column>
-        <el-table-column label="操作" width="285">
+        <el-table-column
+          prop="facestatus"
+          label="最后一次交易时间">
+        </el-table-column>
+        <el-table-column
+          prop="isdirectpay"
+          label="累计交易时间">
+        </el-table-column>
+      </el-table-->
+    
+
+
+    <H3>近期交易订单</H3>
+      <el-table
+        :data="tableData.orderrows"
+        border
+        style="width: 100%; margin-top:20px;"
+        v-loading="listLoading">
+        
+        <el-table-column
+          prop="create_time"
+          label="交易时间">
+        </el-table-column>
+        
+        <el-table-column
+          prop="id"
+          label="订单号">
+        </el-table-column>
+        <el-table-column
+          prop="counter"
+          label="货柜号">
+        </el-table-column>
+        <el-table-column
+          prop="total_price"
+          label="订单金额">
+        </el-table-column>
+       
+         <el-table-column label="操作" width="200">
           <template scope="scope">
             <el-button
               size="small"
               type="default"
-              icon="edit"
-              @click="handleEdit(scope.$index, scope.row)">编辑
-            </el-button>
-            <el-button
-              size="small"
-              type="info"
-              icon="setting"
-              @click="handleRoleConfig(scope.$index, scope.row)">配置角色
+              icon="view"
+              @click="handleEdit(scope.$index, scope.row)">详情
             </el-button>
             <el-button
               size="small"
@@ -72,16 +126,6 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="tableData.pagination.pageNo"
-        :page-sizes="[5, 10, 20]"
-        :page-size="tableData.pagination.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.pagination.total">
-      </el-pagination>
 
       <el-dialog title="配置用户角色" v-model="dialogVisible" size="tiny">
         <div class="select-tree">
@@ -110,6 +154,7 @@
 
   </imp-panel>
 </template>
+
 
 <script>
   import panel from "../../components/panel.vue"
@@ -140,7 +185,8 @@
             pageSize: 10,
             parentId: 0
           },
-          rows: []
+          rows: [],
+          orderrows:[],
         }
       }
     },
@@ -190,19 +236,30 @@
         });
       },
       loadData(){
-        var d = {"offset":0,"limit":2147483647,"total":1,"size":10,"pages":1,"current":1,"searchCount":true,"optimizeCount":false,"orderByField":null,"records":[
-            {"id":1,"delFlag":0,"companyId":1,"officeId":2,"loginName":"admin","password":"",
-              "no":"0001","name":"系统管理员","email":"lanux@foxmail.com","phone":"731","mobile":"13769999998",
-              "userType":"1","photo":null,"loginIp":"127.0.0.1","loginDate":1453188598000,"loginFlag":"1",
-              "remarks":"最高管理员","status":1,"token":null}],"condition":{},"asc":true,"offsetCurrent":0};
-        this.tableData.rows = d.records;
-//      this.tableData.pagination.total = d.total;
-        //        this.$http.get(api.SYS_USER_PAGE + "?key=" + this.searchKey + "&pageSize=" + this.tableData.pagination.pageSize + "&pageNo=" + this.tableData.pagination.pageNo)
-//          .then(res => {
-//            this.tableData.rows = refs.data.records;
-//            this.tableData.pagination.total = res.data.total;
-//          });
-      }
+        if (this.$route.query && this.$route.query != null && this.$route.query.id && this.$route.query.id != null) {
+          let id = this.$route.query.id;
+           this.$http.get(api.SYS_USER_LIST + id + "/")
+          .then(res => {
+            this.tableData.rows = res.data;
+            //this.tableData.pagination.total = res.data.total;
+          });
+
+          // 获取近期订单
+        this.$http.get(api.SYS_COUNTER_ORDER +"?cust_user=" + id)
+          .then(res => {
+          console.log(res);
+            this.tableData.orderrows = res.data;
+            //this.tableData.pagination.total = res.data.total;
+          });
+
+
+          
+        }
+
+        
+        }
+        //?cust_user=2&counter=1
+      
     },
     created(){
       this.loadData();
@@ -213,5 +270,18 @@
   .el-pagination {
     float: right;
     margin-top: 15px;
+  }
+  .infoblock {
+    border-color:#0000FF;
+    border: 1px solid ;
+    padding-bottom:20px;
+    padding-left:10px;
+    margin-left:10px;
+    padding-right:10px;
+    margin-top:5px;
+    margin-bottom:10px;
+  }
+  .baseinfo {
+    margin:8px;
   }
 </style>

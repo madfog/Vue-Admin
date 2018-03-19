@@ -39,8 +39,17 @@ axios.defaults.baseURL = getBaseUrl(window.location.href);
 axios.defaults.headers.common['authUid'] = auth.getUid();
 axios.defaults.headers.common['authSid'] = auth.getSid();
 
+if(auth.getSid()) {
+  axios.defaults.headers.common['Authorization'] = "Token " + auth.getSid();
+}
+
+
+//axios.defaults.headers.common["Content-type"] = 'application/x-www-form-urlencoded';
+
 Vue.prototype.$http = axios
 Vue.axios = axios
+
+
 
 
 //加载路由中间件

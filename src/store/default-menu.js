@@ -2,33 +2,20 @@
  * Created by lanux on 2017/3/13.
  */
 export default [
-  {"id":1,"parentId":null,"sort":0,"name":"仪表盘","href":"/index","icon":"fa fa-dashboard","children":[]},
-  {"id":31,"parentId":null,"sort":1,"name":"上传图片","href":"/img/upload","icon":"fa fa-upload","children":
-      [
-          {"id":92,"parentId":31,"sort":0,"name":"临时上传","href":"/img/upload/tmp","icon":"fa fa-bank","children":[]},
-          {"id":93,"parentId":31,"sort":0,"name":"批量上传","href":"/img/upload/batch","icon":"fa fa-area-chart","children":[]}
+  {"id":1,"parentId":null,"sort":0,"name":"概览","href":"/","icon":"fa fa-dashboard","children":[]},
+  {"id":108,"parentId":null,"sort":0,"name":" 货柜管理","href":"/device/list","icon":"fa fa-database","children":[]},
+  {"id":7,"parentId":null,"sort":1,"name":"人员管理","href":"/user/list","icon":"fa fa-navicon","children":[]},
+  {"id":9,"parentId":null,"sort":3,"name":"商品管理","href":"/good/List","icon":"fa fa-user-plus","children":[]},
+  {"id":8,"parentId":null,"sort":2,"name":"系统管理","href":"/sys/set","icon":"fa fa-universal-access","children":[]},
+  
+  {"id":12,"parentId":null,"sort":2,"name":"人脸绑定","href":"","icon":"fa el-icon-setting","children":[
+  	{"id":13,"parentId":12,"sort":2,"name":"绑定新用户","href":"/user/bind","icon":"fa fa-envelope-o","children":[]},
+  	{"id":14,"parentId":23,"sort":2,"name":"检测人脸","href":"/user/check","icon":"fa fa-user-circle-o","children":[]}
+  
+  
+  ]}
+  
       ]
-  },
-  {"id":97,"parentId":null,"sort":2,"name":"图片处理","href":"/img/process","icon":"fa fa-file-picture-o","children":
-      [
-        {"id":100,"parentId":97,"sort":1,"name":"模板配置","href":"/img/process/templateList","icon":"fa fa-beer","children":[]},
-        {"id":99,"parentId":97,"sort":2,"name":"批量处理","href":"/img/process/advance","icon":"fa fa-battery-2","children":[]},
-        {"id":101,"parentId":97,"sort":3,"name":"目录处理","href":"/img/process/advanceDir","icon":"fa fa-birthday-cake","children":[]}
-      ]
-  },
-  {"id":102,"parentId":null,"sort":3,"name":"图片输出","href":"/img/export","icon":"fa fa-download","children":
-      [
-        {"id":103,"parentId":102,"sort":0,"name":"图片预览","href":"/img/export/preview","icon":"fa fa-image","children":[]}
-      ]
-  },
-  {"id":6,"parentId":null,"sort":6,"name":"系统管理","href":"/sys","icon":"el-icon-setting","children":
-      [
-        {"id":108,"parentId":6,"sort":0,"name":" 资源管理","href":"/sys/resource","icon":"fa fa-database","children":[]},
-        {"id":7,"parentId":6,"sort":1,"name":"菜单管理","href":"/sys/menuList","icon":"fa fa-navicon","children":[]},
-        {"id":8,"parentId":6,"sort":2,"name":"角色管理","href":"/sys/roleList","icon":"fa fa-universal-access","children":[]},
-        {"id":9,"parentId":6,"sort":3,"name":"用户管理","href":"/sys/userList","icon":"fa fa-user-plus","children":[]}
-      ]
-  }]
 // export default [
 //   {"name": "关于我们", "href": "/activePublic", "icon": "fa fa-tag"},
 //   {"name": "上传文件", "href": "/uploadFile", "icon": "fa fa-heart"},

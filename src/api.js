@@ -1,9 +1,17 @@
-export const CONTEXT = '';
+export const CONTEXT = 'http://wxapp.cloudarch.info';
+//export const CONTEXT = 'http://localhost:8099';
+export const CONTEXT_BASE = 'http://118.89.248.109:8000';
 // export const CONTEXT = './Vue-Admin';
 
-export const LOGIN = CONTEXT + '/login';
+export const LOGIN = CONTEXT_BASE + '/get_auth_token/';
 export const LOGOUT = CONTEXT + '/logout';
 export const CHANGE_PWD = CONTEXT + '/changePwd';
+
+export const SYS_GOOD_LIST = CONTEXT_BASE + '/goods/';
+export const SYS_USER_LIST = CONTEXT_BASE + '/users/';
+export const SYS_COUNTER_LIST = CONTEXT_BASE + '/counters/';
+export const SYS_COUNTER_ORDER = CONTEXT_BASE + '/orders/';
+export const SYS_PAY_CONFIG = CONTEXT_BASE + '/payaccounts/';
 
 export const SYS_MENU_GET = CONTEXT + '/sys/menu/get';
 export const SYS_MENU_UPDATE = CONTEXT + '/sys/menu/update';
@@ -46,4 +54,14 @@ export const UPLOAD_FORM_FILE_BATCH = CONTEXT + '/upload/batch';
 
 export const MSG_TOP_TEN = CONTEXT + '/msg/topTen';
 export const TEST_DATA = CONTEXT + '/static/data/data.json';
+
+
+export const SYS_MENU_LIST3 = CONTEXT_BASE + '/menu/menu-list';
+export const SYS_APPLY_CREATE = CONTEXT_BASE + '/apply/add';
+export const SYS_APPLY_INFO = CONTEXT_BASE + '/apply/info';
+
+
+export const SYS_BIND_USER = CONTEXT + '/face/adduser';
+export const SYS_CHECK_USER = CONTEXT + '/face/verifyuser';
+
 

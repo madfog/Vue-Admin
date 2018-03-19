@@ -3,7 +3,7 @@
 
     <!-- Logo -->
     <a href="#" class="logo">
-      <span class="logo-lg">&nbsp;&nbsp; <b>Vue-Admin</b></span>
+      <span class="logo-lg"></span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -109,12 +109,12 @@
         }
       },
       logout(){
-        this.$http.get(api.TEST_DATA)
-          .then(res => {
+        //this.$http.get(api.TEST_DATA)
+          //.then(res => {
             auth.logout();
             this.$http.defaults.headers.common['authSid'] = '';
             this.$router.push({path: '/login'});
-          })
+          //})
       },
       ...mapMutations({
         toggleSidebar: types.TOGGLE_SIDEBAR,
@@ -139,10 +139,12 @@
     created(){
       let item = window.sessionStorage.getItem("user-info");
       if (!!item){
+        if(item[0] == "{")
           this.setUserInfo(JSON.parse(item));
       }
       this.count = 0;
       this.list = [];
+      /*
       this.$http.get(api.TEST_DATA)
         .then(res => {
             res.data = res.data.messageList;
@@ -151,6 +153,7 @@
                 this.list = res.data;
             }
         })
+        */
     },
     mounted() {
       document.addEventListener('click', this.autoHide, false)
@@ -172,7 +175,7 @@
   .main-header {
     position: fixed;
     min-width: 100%;
-    box-shadow: 0 2px 3px hsla(0, 0%, 7%, .1), 0 0 0 1px hsla(0, 0%, 7%, .1);
+    #box-shadow: 0 2px 3px hsla(0, 0%, 7%, .1), 0 0 0 1px hsla(0, 0%, 7%, .1);
     z-index: 1030;
     animation-name: slideInDown;
     animation-fill-mode: both;
@@ -182,7 +185,7 @@
     float: left;
     background-color: transparent;
     background-image: none;
-    padding: 15px 15px;
+    padding: 10px 15px;
     font-family: fontAwesome;
     line-height: 20px;
   }
@@ -211,11 +214,11 @@
     transition: width 0.3s ease-in-out;
     display: block;
     float: left;
-    height: 50px;
+    height: 40px;
     font-size: 20px;
-    line-height: 50px;
+    line-height: 40px;
     text-align: center;
-    width: 230px;
+    width: 170px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding: 0 15px;
     font-weight: 300;
@@ -224,13 +227,15 @@
   }
 
   .main-header .logo .logo-lg {
-    display: block;
-    background-image: url("../../../static/img/foot_icon.png");
+    
+    width: 90px;
+    height: 24px;
+    margin-top: 12px;
+    display: inline-block;
+    background-image: url("../../../static/img/global-201712181454.svg");
+    background-position: 0.5% 20.76%;
     background-repeat: no-repeat;
-    background-position: 15px -6px;
-    height: 38px;
-    line-height: 38px;
-    margin-top: 6px;
+    background-size: 322.22222222222223% 1083.3333333333335%;
   }
 
   .main-header .logo .logo-mini {
@@ -242,9 +247,9 @@
     -o-transition: margin-left 0.3s ease-in-out;
     transition: margin-left 0.3s ease-in-out;
     margin-bottom: 0;
-    margin-left: 230px;
+    margin-left: 170px;
     border: none;
-    min-height: 50px;
+    min-height: 40px;
     border-radius: 0;
   }
 
@@ -290,8 +295,8 @@
   }
 
   .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   .open > a {
@@ -616,7 +621,7 @@
   }
 
   .main-header .navbar {
-    background-color: #3c8dbc;
+    background-color: #334156;
   }
 
   .main-header .navbar .nav > li > a {
@@ -653,7 +658,7 @@
   }
 
   .main-header .logo {
-    background-color: #367fa9;
+    background-color: #334559;
     color: #ffffff;
     border-bottom: 0 solid transparent;
   }
